@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나의 섭식과 수면 돌아보기 | 이상심리학 12주차</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --mint:#DDEDEA; --cream:#FBF7EC; --band:#F2F2F2; --card:#FFFFFF; --line:#7D8C99; --soft:#C9D3D9;
+  --ink:#1B1F23; --ink2:#4A5560; --muted:#6B7680; --accent:#2F5D62; --accent-soft:#E4F0EE; --bar:#3E8E86; --warn:#8A5A00;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--mint);color:var(--ink);font-family:"Nanum Gothic","NanumGothic","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.6}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:16px 12px 48px}
+.frame{background:var(--card);border:1.5px solid var(--line);box-shadow:0 3px 0 -1px var(--card),0 3px 0 0 var(--line)}
+.titlebar{background:var(--cream);border-bottom:1.5px solid var(--line);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.titlebar h1{font-size:18px;font-weight:800;margin:0;flex:1;min-width:200px;text-wrap:balance}
+.titlebar .who{font-size:13px;color:var(--ink2)}
+nav{display:flex;gap:4px;padding:8px 10px;border-bottom:1px solid var(--soft);overflow-x:auto}
+nav button{border:1px solid transparent;background:none;padding:7px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;font-weight:700;color:var(--ink2)}
+nav button[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+main{padding:16px 16px 22px}
+.band{background:var(--band);padding:8px 12px;font-weight:700;margin:22px 0 12px}
+.band:first-child{margin-top:0}
+p{margin:0 0 10px}
+.note{font-size:14px;color:var(--ink2)}
+.notice{background:var(--cream);border:1px solid #E4D9B8;padding:10px 12px;font-size:14px;margin:0 0 14px}
+.err{color:#A12622;font-weight:700;font-size:14px;min-height:1.4em}
+.ok{color:var(--accent);font-weight:700;font-size:14px}
+.btn{border:1.5px solid var(--accent);background:var(--accent);color:#fff;padding:9px 16px;border-radius:6px;font-weight:700;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.small{padding:5px 10px;font-size:14px}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px 14px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--ink2)}
+label.f span.h{font-weight:400;color:var(--muted);font-size:13px}
+input[type=text],input[type=password],input[type=number],input[type=time],input[type=date],select,textarea{border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff;width:100%;font-weight:400;color:var(--ink)}
+textarea{min-height:92px;resize:vertical}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.scale{display:flex;gap:6px;flex-wrap:wrap}
+.scale label{position:relative;cursor:pointer}
+.scale input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.scale span{display:block;min-width:38px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:6px 9px;background:#fff;font-weight:700;font-size:14px}
+.scale input:checked+span{background:var(--accent);color:#fff;border-color:var(--accent)}
+.scale input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips label{cursor:pointer;position:relative}
+.chips input{position:absolute;opacity:0}
+.chips span{display:block;border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:14px;background:#fff}
+.chips input:checked+span{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.chips input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.item{border-bottom:1px solid var(--soft);padding:12px 0}
+.item .q{font-weight:700;margin-bottom:8px}
+.ends{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);max-width:330px;margin-top:3px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{border:1px solid var(--line);border-radius:6px;padding:8px 4px;text-align:center;background:#fff;cursor:pointer;font-size:13px}
+.day b{display:block;font-size:15px}
+.day.done{background:var(--accent-soft);border-color:var(--accent)}
+.day.today{box-shadow:inset 0 0 0 2px var(--accent)}
+.day small{display:block;color:var(--ink2)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.tile{border:1px solid var(--soft);padding:10px 12px;background:#fff}
+.tile .k{font-size:13px;color:var(--ink2)}
+.tile .v{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.tile .u{font-size:13px;color:var(--muted);font-weight:400}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid #A6A6A6;padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--band);text-align:center;font-weight:700}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.meal{border:1px solid var(--soft);padding:10px 12px;margin-bottom:8px;background:#fff}
+.meal .head{display:flex;justify-content:space-between;gap:8px;align-items:center;font-weight:700}
+.meter{height:10px;background:var(--band);border-radius:5px;overflow:hidden;margin-top:4px}
+.meter i{display:block;height:100%;background:var(--bar);border-radius:5px}
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.testcard{border:1px solid var(--line);padding:12px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.testcard h3{margin:0;font-size:16px}
+.tip{position:fixed;pointer-events:none;background:#1B1F23;color:#fff;font-size:13px;padding:5px 8px;border-radius:4px;z-index:9;display:none;max-width:240px}
+svg text{font-family:inherit}
+.sheet h2{font-size:18px;margin:0 0 4px}
+.sheet h3{font-size:15px;margin:14px 0 6px;background:var(--band);padding:4px 8px}
+.sheet .txt{white-space:pre-wrap;border:1px solid var(--soft);padding:8px 10px;min-height:44px;font-size:14px}
+footer{margin-top:14px;font-size:13px;color:var(--ink2);text-align:center}
+footer button{background:none;border:none;color:var(--ink2);text-decoration:underline;cursor:pointer;padding:0}
+@media (max-width:560px){main{padding:14px 12px 18px}.days{gap:3px}.day{font-size:11px;padding:6px 1px}.titlebar h1{font-size:16px}}
+@media print{
+  body{background:#fff;font-size:11pt}
+  .wrap{max-width:none;padding:0}.frame{border:none;box-shadow:none}
+  .titlebar,nav,footer,.noprint,.tip{display:none !important}
+  main{padding:0}
+  .sheet h3{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  table{font-size:9.5pt} th,td{padding:3px 5px}
+  .sheet .txt{min-height:0}
+  @page{size:A4;margin:14mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="frame">
+    <div class="titlebar"><h1>나의 섭식과 수면 돌아보기</h1><span class="who" id="who">이상심리학 12주차</span></div>
+    <nav id="nav" hidden></nav>
+    <main id="main"><p class="note">불러오는 중입니다.</p></main>
+  </div>
+  <footer id="foot"></footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+/* ============================================================
+   설정: Google Apps Script 웹 앱 URL을 아래 따옴표 안에 붙여 넣습니다.
+   비워 두면 "연습 모드"로 동작하며 기록은 이 기기의 브라우저에만 저장됩니다.
+   ============================================================ */
+const API_URL = "";
+
+/* ---------- 척도 ---------- */
+const L7 = ["전혀 아니다", "아니다", "거의 아니다", "보통이다", "조금 그렇다", "그렇다", "매우 그렇다"];
+const OBCS_ITEMS = [
+  "나는 내 겉모습을 거의 신경 쓰지 않는다.",
+  "나는 옷을 입을 때 어떻게 보이느냐보다는 편안한 것이 더 중요하다.",
+  "나는 내 외모보다 신체상태(느낌)를 더 많이 생각한다.",
+  "나는 내 겉모습을 다른 사람들과 거의 비교하지 않는다.",
+  "나는 내가 어떻게 보일까에 대해 하루에도 여러 번 생각한다.",
+  "내가 입고 있는 옷이 내 외모를 돋보이게 하고 있는지 자주 신경 쓴다.",
+  "나는 내 겉모습이 다른 사람들에게 어떻게 보이는지 거의 신경 쓰지 않는다.",
+  "내 몸이 '어떻게 보이는가'보다 내 몸이 '할 수 있는 것'에 더 관심이 많다.",
+  "체중을 조절하지 못하면 내게 문제가 있는 것처럼 느껴진다.",
+  "나는 내가 할 수 있는 최선의 겉모습(외모)이 되도록 노력하지 않으면 내 자신이 창피하게 느껴진다.",
+  "외모를 가꾸는데 최선을 다하지 않으면 내가 한심한 사람처럼 느껴진다.",
+  "사람들이 나의 실제 몸무게를 알게 되면 창피할 것 같다.",
+  "내가 해야 하는 운동을 하지 않더라도 내게 문제가 있다고 생각하지 않는다.",
+  "나는 내가 운동을 충분히 하지 않으면 괜찮은 사람인가 하는 의문이 든다.",
+  "내 몸무게를 조절할 수 없더라도 괜찮은 사람이라고 생각한다.",
+  "나는 내가 생각하는 적당한 신체사이즈가 아닐 때 부끄러움을 느낀다."
+];
+const OBCS_REV = [1, 2, 3, 4, 7, 8, 13, 15];
+const EAT_ITEMS = [
+  "살찌는 것이 두렵다.",
+  "내가 먹은 음식의 칼로리를 알고 있다.",
+  "특히 탄수화물이 많이 든 음식(예: 빵, 감자, 밥 등)을 피한다.",
+  "먹은 후에 죄책감을 많이 느낀다.",
+  "더 날씬해지고 싶다는 생각에 집착한다.",
+  "나는 운동할 때 칼로리를 소비하고 있다는 생각을 한다.",
+  "내가 뚱뚱하다는 생각에 늘 사로잡혀 있다.",
+  "설탕이 든 음식을 피한다.",
+  "살 안찌는 음식을 먹는다.",
+  "단 음식을 먹고 나면, 마음이 불편하다.",
+  "살을 빼기 위해 음식 조절을 한다.",
+  "공복감이 좋다.",
+  "새롭고 맛좋은 음식을 먹어보는 것을 즐긴다.",
+  "음식에 사로잡혀 있는 자신을 발견한다.",
+  "자신이 멈출 수 없다고 느낄 때까지 계속 진탕 먹어댄다.",
+  "먹고 난 뒤에는 토해버린다.",
+  "내 삶이 음식에 좌우된다는 느낌이 든다.",
+  "음식에 너무 많은 시간을 들이고 생각한다.",
+  "먹은 후엔 토하고 싶은 충동을 느낀다.",
+  "배가 고파도 먹기를 꺼린다.",
+  "음식을 작은 조각으로 잘라 놓는다(음식을 깔짝거린다).",
+  "내가 좀 더 먹으면 다른 사람이 나를 더 좋아할 것이라고 느낀다.",
+  "다른 사람은 내가 너무 말랐다고 한다.",
+  "나는 다른 사람들보다 음식을 천천히 먹는다.",
+  "나는 식사량 조절을 잘하는 것을 자랑스러워한다.",
+  "다른 사람들이 나에게 좀 더 많이 먹으라고 한다."
+];
+const EAT_REV = [13];
+const EAT_FACTORS = [
+  { name: "식이 조절(다이어트)", items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13] },
+  { name: "폭식과 음식에 대한 몰두", items: [14, 15, 16, 17, 18, 19] },
+  { name: "섭식 통제", items: [20, 21, 22, 23, 24, 25, 26] }
+];
+const ISI_ITEMS = [
+  { q: "잠들기 어렵다", o: ["전혀 없다", "약간", "중간 정도", "심하다", "매우 심하다"] },
+  { q: "잠을 유지하기 어렵다 (자주 깸)", o: ["전혀 없다", "약간", "중간 정도", "심하다", "매우 심하다"] },
+  { q: "쉽게 깬다", o: ["전혀 없다", "약간", "중간 정도", "심하다", "매우 심하다"] },
+  { q: "현재 수면패턴에 대해 얼마나 만족하고 계십니까?", o: ["매우 만족", "만족", "중간", "불만족", "매우 불만족"] },
+  { q: "경험하는 수면장애가 일상기능을 어느 정도로 방해한다고 생각하십니까?", o: ["전혀 방해되지 않음", "조금 방해됨", "다소 방해됨", "많이 방해됨", "매우 많이 방해됨"] },
+  { q: "삶의 질 저하 측면에서 귀하의 수면 장애를 다른 사람이 얼마나 쉽게 알아차릴 수 있다고 생각하십니까?", o: ["전혀 현저하지 않음", "조금 현저함", "다소 현저함", "많이 현저함", "매우 많이 현저함"] },
+  { q: "현재 수면장애에 관하여 얼마나 걱정하고 계십니까?", o: ["전혀", "조금", "다소", "많이", "매우 많이"] }
+];
+const FREQ = ["지난 한달 동안 없었다", "한 주에 1번보다 적게", "한 주에 1~2번 정도", "한 주에 3번 이상"];
+const PSQI_5 = [
+  ["a", "취침 후 30분 이내에 잠들 수 없었다."], ["b", "한밤중이나 새벽에 깼다."], ["c", "화장실에 가려고 일어나야 했다."],
+  ["d", "편안하게 숨 쉴 수가 없었다."], ["e", "기침을 하거나 시끄럽게 코를 골았다."], ["f", "너무 춥다고 느꼈다."],
+  ["g", "너무 덥다고 느꼈다."], ["h", "나쁜 꿈을 꾸었다."], ["i", "통증이 있었다."], ["j", "그 외에 다른 이유 때문에 잠자는 데 어려움이 있었다."]
+];
+const TESTS = {
+  obcs: { title: "신체 감시와 수치심", n: "16문항", about: "자신의 몸을 바깥에서 보듯 살피는 정도와, 몸에 대해 느끼는 수치심을 살펴봅니다." },
+  eat:  { title: "섭식 태도", n: "26문항", about: "먹는 것과 체중에 대한 평소의 생각과 행동을 살펴봅니다." },
+  isi:  { title: "불면증 심각도 지수 (ISI)", n: "7문항", about: "지난 2주 동안의 불면 문제를 살펴봅니다." },
+  psqi: { title: "피츠버그 수면의 질 지수 (PSQI-K)", n: "지난 한 달", about: "지난 한 달 동안의 수면 습관과 수면의 질을 살펴봅니다." }
+};
+
+/* ---------- 채점 (순수 함수) ---------- */
+function mean(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null; }
+function scoreLikert(ans, n, max, rev, groups) {
+  const v = i => { const x = Number(ans[i]); return rev.includes(i) ? (max + 1 - x) : x; };
+  const all = []; for (let i = 1; i <= n; i++) all.push(v(i));
+  return { total: all.reduce((a, b) => a + b, 0), mean: mean(all), groups: groups.map(g => ({ name: g.name, mean: mean(g.items.map(v)) })) };
+}
+function scoreOBCS(ans) {
+  return scoreLikert(ans, 16, 7, OBCS_REV, [{ name: "신체 감시", items: [1, 2, 3, 4, 5, 6, 7, 8] }, { name: "신체 수치심", items: [9, 10, 11, 12, 13, 14, 15, 16] }]);
+}
+function scoreEAT(ans) { return scoreLikert(ans, 26, 6, EAT_REV, EAT_FACTORS); }
+function scoreISI(ans) {
+  let t = 0; for (let i = 1; i <= 7; i++) t += Number(ans[i]);
+  const label = t <= 7 ? "유의할만한 불면증이 없습니다." : t <= 14 ? "약간의 불면경향이 있습니다." : t <= 21 ? "중등도의 불면증이 있습니다." : "심한 불면증이 있습니다.";
+  return { total: t, label };
+}
+function toMin(t) { if (!t || !/^\d{1,2}:\d{2}$/.test(t)) return null; const [h, m] = t.split(":").map(Number); return h * 60 + m; }
+function span(a, b) { const x = toMin(a), y = toMin(b); if (x === null || y === null) return null; return ((y - x) + 1440) % 1440; }
+function scorePSQI(a) {
+  const band = (x, cuts) => cuts.findIndex(c => x <= c);            // cuts ascending, last = Infinity
+  const q2 = Number(a.q2), sleepMin = Number(a.q4h) * 60 + Number(a.q4m || 0);
+  const c1 = Number(a.q6);
+  const c2 = band(band(q2, [15, 30, 60, Infinity]) + Number(a.q5a), [0, 2, 4, Infinity]);
+  const hrs = sleepMin / 60;
+  const c3 = hrs >= 7 ? 0 : hrs >= 6 ? 1 : hrs >= 5 ? 2 : 3;
+  const bedMin = span(a.q1, a.q3);
+  const eff = bedMin ? Math.min(100, sleepMin / bedMin * 100) : null;
+  const c4 = eff === null ? null : eff >= 85 ? 0 : eff >= 75 ? 1 : eff >= 65 ? 2 : 3;
+  let dist = 0; "bcdefghij".split("").forEach(k => dist += Number(a["q5" + k] || 0));
+  const c5 = band(dist, [0, 9, 18, Infinity]);
+  const c6 = Number(a.q7);
+  const c7 = band(Number(a.q8) + Number(a.q9), [0, 2, 4, Infinity]);
+  const comps = [c1, c2, c3, c4, c5, c6, c7];
+  return { comps, total: comps.some(x => x === null) ? null : comps.reduce((x, y) => x + y, 0), eff };
+}
+
+/* ---------- 매일 기록 계산 ---------- */
+function sleepStats(s) {
+  if (!s) return {};
+  const tib = span(s.bed, s.out || s.wake);
+  const inSleep = span(s.bed, s.wake);
+  let tst = null;
+  if (inSleep !== null) tst = Math.max(0, inSleep - Number(s.sol || 0) - Number(s.waso || 0));
+  const se = (tst !== null && tib) ? Math.min(100, tst / tib * 100) : null;
+  return { tib, tst, se };
+}
+function fmtH(min) { if (min === null || min === undefined) return "-"; return Math.floor(min / 60) + "시간 " + String(Math.round(min % 60)).padStart(2, "0") + "분"; }
+function r1(x) { return (x === null || x === undefined || isNaN(x)) ? "-" : (Math.round(x * 10) / 10).toFixed(1); }
+function ymd(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+function addDays(s, n) { const [y, m, d] = s.split("-").map(Number); const t = new Date(y, m - 1, d + n); return ymd(t); }
+function weekDates(start) { return [0, 1, 2, 3, 4, 5, 6].map(i => addDays(start, i)); }
+function dow(s) { const [y, m, d] = s.split("-").map(Number); return "일월화수목금토"[new Date(y, m - 1, d).getDay()]; }
+function md(s) { const p = s.split("-"); return Number(p[1]) + "/" + Number(p[2]); }
+function logDone(l) { return !!(l && ((l.sleep && l.sleep.bed) || (l.meals && l.meals.length))); }
+function weekSummary(logs, start) {
+  const days = weekDates(start).map(d => ({ date: d, log: logs[d] || null }));
+  const sl = days.map(x => sleepStats(x.log && x.log.sleep));
+  const num = (arr) => arr.filter(v => v !== null && v !== undefined && v !== "" && !isNaN(v)).map(Number);
+  const meals = days.flatMap(x => (x.log && x.log.meals) || []);
+  const moods = {};
+  meals.forEach(m => (m.moodBefore || []).forEach(t => moods[t] = (moods[t] || 0) + 1));
+  const logged = days.filter(x => logDone(x.log)).length;
+  const mealDays = days.filter(x => x.log && x.log.meals && x.log.meals.length).length;
+  return {
+    days, sl, logged,
+    tst: mean(num(sl.map(s => s.tst))), se: mean(num(sl.map(s => s.se))),
+    sol: mean(num(days.map(x => x.log && x.log.sleep && x.log.sleep.sol))),
+    quality: mean(num(days.map(x => x.log && x.log.sleep && x.log.sleep.quality))),
+    sleepy: mean(num(days.map(x => x.log && x.log.sleep && x.log.sleep.sleepy))),
+    mealsPerDay: mealDays ? meals.length / mealDays : null,
+    alone: meals.length ? meals.filter(m => m.who === "혼자").length / meals.length * 100 : null,
+    hunger: mean(num(meals.map(m => m.hunger))), full: mean(num(meals.map(m => m.full))),
+    late: meals.filter(m => { const t = toMin(m.time); return t !== null && (t >= 22 * 60 || t < 4 * 60); }).length,
+    moods: Object.entries(moods).sort((a, b) => b[1] - a[1]), mealCount: meals.length
+  };
+}
+function testSummary(key, t) {
+  if (!t || !t.score) return "";
+  const s = t.score;
+  if (key === "obcs") return s.groups.map(g => g.name + " " + r1(g.mean)).join(", ") + " (1~7)";
+  if (key === "eat") return "총점 " + s.total + " (26~156), " + s.groups.map(g => g.name + " " + r1(g.mean)).join(", ");
+  if (key === "isi") return "총점 " + s.total + " / 28";
+  if (key === "psqi") return "총점 " + (s.total === null ? "-" : s.total) + " / 21";
+  return "";
+}
+if (typeof module !== "undefined") module.exports = { scoreOBCS, scoreEAT, scoreISI, scorePSQI, sleepStats, weekSummary, span };
+
+/* ============================================================ 화면 ============================================================ */
+if (typeof document !== "undefined") (function () {
+const $ = s => document.querySelector(s);
+const esc = s => String(s === null || s === undefined ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const today = () => ymd(new Date());
+const S = { profile: null, key: null, logs: {}, tests: {}, reflection: {}, view: "home", date: today(), test: null, admin: null, busy: false };
+const LOCAL = !API_URL;
+const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }, del(k) { try { localStorage.removeItem(k); } catch (e) {} } };
+
+async function sha256hex(text) {
+  if (window.crypto && crypto.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  let out = ""; for (let r = 0; r < 8; r++) { let h = 2166136261 ^ r; for (let i = 0; i < text.length; i++) { h ^= text.charCodeAt(i); h = Math.imul(h, 16777619); } out += (h >>> 0).toString(16).padStart(8, "0"); }
+  return out;
+}
+
+/* ---- 저장소: Apps Script 또는 연습 모드(localStorage) ---- */
+function localApi(req) {
+  const db = store.get("abpsy12.local") || { users: {} };
+  const save = () => store.set("abpsy12.local", db);
+  const pack = u => ({ ok: true, profile: { id: u.id, name: u.name, start: u.start }, logs: u.logs, tests: u.tests, reflection: u.reflection });
+  if (req.action === "admin") return { ok: true, students: Object.values(db.users).map(u => ({ id: u.id, name: u.name, start: u.start, logs: u.logs, tests: u.tests, reflection: u.reflection })) };
+  if (req.action === "signup") {
+    if (db.users[req.id]) throw new Error("이미 있는 아이디입니다.");
+    db.users[req.id] = { id: req.id, name: req.name, key: req.key, start: today(), logs: {}, tests: {}, reflection: null }; save();
+    return pack(db.users[req.id]);
+  }
+  const u = db.users[req.id];
+  if (!u || u.key !== req.key) throw new Error("아이디 또는 비밀번호가 맞지 않습니다.");
+  if (req.action === "saveLog") u.logs[req.date] = req.data;
+  else if (req.action === "saveTest") u.tests[req.test] = req.data;
+  else if (req.action === "saveReflection") u.reflection = req.data;
+  else if (req.action === "setStart") u.start = req.start;
+  else return pack(u);
+  save(); return { ok: true };
+}
+async function api(action, payload) {
+  const req = Object.assign({ action, id: S.profile && S.profile.id, key: S.key }, payload || {});
+  if (LOCAL) return localApi(req);
+  const ctl = new AbortController(); const timer = setTimeout(() => ctl.abort(), 25000);
+  let res;
+  try {
+    const r = await fetch(API_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(req), signal: ctl.signal });
+    res = await r.json();
+  } catch (e) { throw new Error("저장소에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."); }
+  finally { clearTimeout(timer); }
+  if (!res.ok) throw new Error(res.error || "요청을 처리하지 못했습니다.");
+  return res;
+}
+function adopt(res, key) {
+  S.profile = res.profile; S.key = key; S.logs = res.logs || {}; S.tests = res.tests || {}; S.reflection = res.reflection || {};
+  if (!S.profile.start) S.profile.start = today();
+}
+
+/* ---- 공통 UI ---- */
+const NAV = [["home", "홈"], ["log", "오늘 기록"], ["tests", "검사"], ["week", "나의 일주일"], ["sheet", "한 장 정리"]];
+function render() {
+  const nav = $("#nav"), main = $("#main");
+  $("#who").textContent = S.profile ? S.profile.name + " (" + S.profile.id + ")" : "이상심리학 12주차";
+  if (S.view === "admin") { nav.hidden = true; main.innerHTML = viewAdmin(); bind(); foot(); return; }
+  if (!S.profile) { nav.hidden = true; main.innerHTML = viewAuth(); bind(); foot(); return; }
+  nav.hidden = false;
+  nav.innerHTML = NAV.map(([k, t]) => `<button data-nav="${k}" ${S.view === k ? 'aria-current="page"' : ""}>${t}</button>`).join("") + `<button data-act="logout" style="margin-left:auto">로그아웃</button>`;
+  main.innerHTML = ({ home: viewHome, log: viewLog, tests: viewTests, week: viewWeek, sheet: viewSheet }[S.view] || viewHome)();
+  bind(); foot(); window.scrollTo(0, 0);
+}
+function foot() {
+  $("#foot").innerHTML = (LOCAL ? "연습 모드: 기록이 이 기기의 브라우저에만 저장됩니다. · " : "") + (S.view === "admin" ? `<button data-act="exitAdmin">학생 화면으로</button>` : `<button data-act="admin">교수용</button>`);
+  $("#foot").querySelectorAll("[data-act]").forEach(b => b.onclick = () => act(b.dataset.act, b));
+}
+function bind() {
+  document.querySelectorAll("#nav [data-nav]").forEach(b => b.onclick = () => { S.view = b.dataset.nav; if (S.view === "log") S.date = today(); S.test = null; render(); });
+  document.querySelectorAll("#nav [data-act], #main [data-act]").forEach(b => b.onclick = () => act(b.dataset.act, b));
+  document.querySelectorAll("#main form").forEach(f => f.onsubmit = e => { e.preventDefault(); act(f.dataset.form, f); });
+  document.querySelectorAll("#main [data-tip]").forEach(el => {
+    const tip = $("#tip");
+    el.onmousemove = e => { tip.textContent = el.dataset.tip; tip.style.display = "block"; tip.style.left = Math.min(e.clientX + 12, innerWidth - 250) + "px"; tip.style.top = (e.clientY + 14) + "px"; };
+    el.onmouseleave = () => { tip.style.display = "none"; };
+  });
+}
+function msg(id, text, ok) { const el = document.getElementById(id); if (el) { el.textContent = text; el.className = ok ? "ok" : "err"; } }
+function formData(f) {
+  const o = {};
+  f.querySelectorAll("[name]").forEach(el => {
+    if (el.type === "radio") { if (el.checked) o[el.name] = el.value; else if (!(el.name in o)) o[el.name] = undefined; }
+    else if (el.type === "checkbox") { if (el.dataset.multi) { (o[el.name] = o[el.name] || []); if (el.checked) o[el.name].push(el.value); } else o[el.name] = el.checked; }
+    else o[el.name] = el.value.trim();
+  });
+  return o;
+}
+function scaleRow(name, labels, val, from) {
+  from = from === undefined ? 1 : from;
+  return `<div class="scale" role="radiogroup">` + labels.map((l, i) => `<label title="${esc(l)}"><input type="radio" name="${name}" value="${i + from}" ${String(val) === String(i + from) ? "checked" : ""}><span>${i + from}</span></label>`).join("") + `</div>`;
+}
+function optRow(name, labels, val) {
+  return `<div class="chips" role="radiogroup">` + labels.map((l, i) => `<label><input type="radio" name="${name}" value="${i}" ${String(val) === String(i) ? "checked" : ""}><span>${esc(l)}</span></label>`).join("") + `</div>`;
+}
+function field(label, inner, hint) { return `<label class="f">${label}${hint ? ` <span class="h">${hint}</span>` : ""}${inner}</label>`; }
+function inp(name, type, val, extra) { return `<input type="${type}" name="${name}" value="${esc(val === undefined || val === null ? "" : val)}" ${extra || ""}>`; }
+
+/* ---- 로그인 ---- */
+function viewAuth() {
+  return `
+  <div class="band">시작하기</div>
+  <p>일주일 동안 매일 섭식과 수면을 기록하고, 수업에서 하는 검사 결과와 함께 자신의 패턴을 돌아보는 과제입니다. 진단을 내리려는 것이 아니라 자신의 패턴을 알아차리는 것이 목적입니다.</p>
+  ${LOCAL ? `<p class="notice">연습 모드입니다. 저장소가 연결되지 않아 기록이 이 기기의 브라우저에만 저장됩니다.</p>` : ""}
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px">
+    <form data-form="login">
+      <div class="band">로그인</div>
+      <div class="grid" style="grid-template-columns:1fr">
+        ${field("아이디", inp("id", "text", "", 'autocomplete="username" required'))}
+        ${field("비밀번호", inp("pw", "password", "", 'autocomplete="current-password" required'))}
+        <label class="note"><input type="checkbox" name="keep"> 이 기기에서 로그인 유지</label>
+        <div class="row"><button class="btn">로그인</button><span id="m-login" class="err"></span></div>
+      </div>
+    </form>
+    <form data-form="signup">
+      <div class="band">처음이라면: 가입</div>
+      <div class="grid" style="grid-template-columns:1fr">
+        ${field("아이디", inp("id", "text", "", 'autocomplete="username" required minlength="2" maxlength="20"'), "한글, 영문, 숫자 2~20자")}
+        ${field("이름 또는 학번", inp("name", "text", "", 'required maxlength="30"'), "교수님이 과제를 확인할 때 씁니다")}
+        ${field("비밀번호", inp("pw", "password", "", 'autocomplete="new-password" required minlength="4"'), "4자 이상. 다른 곳에서 쓰는 비밀번호는 쓰지 마세요")}
+        ${LOCAL ? "" : field("가입 코드", inp("code", "text", "", "required"), "수업 시간에 안내한 코드")}
+        <label class="note"><input type="checkbox" name="agree" required> 내가 쓴 기록과 검사 결과가 담당 교수가 볼 수 있는 수업용 저장소에 저장된다는 것을 이해했습니다. 쓰고 싶은 만큼만 써도 됩니다.</label>
+        <div class="row"><button class="btn">가입하고 시작</button><span id="m-signup" class="err"></span></div>
+      </div>
+    </form>
+  </div>`;
+}
+
+/* ---- 홈 ---- */
+function dayStrip() {
+  const t = today();
+  return `<div class="days">` + weekDates(S.profile.start).map((d, i) => {
+    const l = S.logs[d], done = logDone(l);
+    const n = l && l.meals ? l.meals.length : 0, sl = l && l.sleep && l.sleep.bed;
+    return `<button class="day ${done ? "done" : ""} ${d === t ? "today" : ""}" data-act="openDay" data-date="${d}"><b>${i + 1}일차</b>${md(d)} (${dow(d)})<small>${sl ? "수면 ✓" : "수면 –"}</small><small>식사 ${n}회</small></button>`;
+  }).join("") + `</div>`;
+}
+function viewHome() {
+  const w = weekSummary(S.logs, S.profile.start);
+  const doneTests = Object.keys(TESTS).filter(k => S.tests[k]).length;
+  return `
+  <div class="band">일주일 기록 (${w.logged} / 7일)</div>
+  <p class="note">날짜를 누르면 그날의 기록을 쓰거나 고칠 수 있습니다. 수면은 아침에, 식사는 먹은 뒤나 하루를 마칠 때 쓰면 좋습니다.</p>
+  ${dayStrip()}
+  <div class="row" style="margin-top:12px"><button class="btn" data-act="openDay" data-date="${today()}">오늘 기록하기</button>
+  <label class="note">시작일 <input type="date" id="start" value="${S.profile.start}" style="width:auto"> <button class="btn ghost small" data-act="setStart">변경</button></label><span id="m-start"></span></div>
+  <div class="band">검사 (${doneTests} / ${Object.keys(TESTS).length})</div>
+  ${testCards()}
+  <div class="band">과제 순서</div>
+  <p>① 수업에서 검사 4개를 하고 결과를 확인합니다. ② 일주일 동안 매일 섭식과 수면을 기록합니다. ③ '나의 일주일'에서 기록을 살펴봅니다. ④ '한 장 정리'에서 패턴 알아차리기와 앞으로의 계획을 쓰고, 다음 수업 전까지 PDF로 저장해 제출합니다.</p>`;
+}
+
+/* ---- 매일 기록 ---- */
+const MOODS = ["편안함", "즐거움", "스트레스", "불안", "우울", "지루함", "외로움", "피곤함", "화남"];
+const MEAL_TYPES = ["아침", "점심", "저녁", "간식", "야식"];
+function viewLog() {
+  const l = S.logs[S.date] || {}, s = l.sleep || {}, d = l.day || {}, meals = l.meals || [];
+  const st = sleepStats(s);
+  return `
+  <div class="row noprint" style="justify-content:space-between"><div class="row"><button class="btn ghost small" data-act="shiftDay" data-n="-1">이전 날</button><b>${S.date} (${dow(S.date)})</b><button class="btn ghost small" data-act="shiftDay" data-n="1">다음 날</button></div></div>
+  <form data-form="saveLog">
+  <div class="band">지난밤 수면</div>
+  <p class="note">${md(S.date)} 아침에 일어난 잠을 기준으로 씁니다.</p>
+  <div class="grid">
+    ${field("잠자리에 든 시각", inp("bed", "time", s.bed))}
+    ${field("잠들기까지 걸린 시간(분)", inp("sol", "number", s.sol, 'min="0" max="600" inputmode="numeric"'))}
+    ${field("밤에 깬 횟수", inp("wakes", "number", s.wakes, 'min="0" max="30" inputmode="numeric"'))}
+    ${field("밤에 깨어 있던 시간(분)", inp("waso", "number", s.waso, 'min="0" max="600" inputmode="numeric"'), "모두 합쳐서")}
+    ${field("마지막으로 잠에서 깬 시각", inp("wake", "time", s.wake))}
+    ${field("침대에서 나온 시각", inp("out", "time", s.out))}
+    ${field("낮잠(분)", inp("nap", "number", s.nap, 'min="0" max="600" inputmode="numeric"'), "어제 낮")}
+    ${field("카페인 음료(잔)", inp("caffeine", "number", s.caffeine, 'min="0" max="20" inputmode="numeric"'), "어제 하루")}
+    ${field("자기 전 화면 사용(분)", inp("screen", "number", s.screen, 'min="0" max="600" inputmode="numeric"'), "잠자리에서 휴대전화 등")}
+  </div>
+  <div class="grid" style="margin-top:12px">
+    <div><div class="f" style="font-size:14px;font-weight:700;color:var(--ink2)">수면의 질</div>${scaleRow("quality", ["매우 나쁨", "나쁨", "보통", "좋음", "매우 좋음"], s.quality)}<div class="ends"><span>매우 나쁨</span><span>매우 좋음</span></div></div>
+    <div><div class="f" style="font-size:14px;font-weight:700;color:var(--ink2)">아침에 개운한 정도</div>${scaleRow("rested", ["전혀", "", "", "", "매우"], s.rested)}<div class="ends"><span>전혀</span><span>매우</span></div></div>
+    <div><div class="f" style="font-size:14px;font-weight:700;color:var(--ink2)">낮 동안의 졸림</div>${scaleRow("sleepy", ["전혀", "", "", "", "매우"], s.sleepy)}<div class="ends"><span>전혀</span><span>매우 졸림</span></div></div>
+  </div>
+  <p style="margin-top:10px"><label class="note"><input type="checkbox" name="nightmare" ${s.nightmare ? "checked" : ""}> 기억나는 나쁜 꿈을 꾸었다</label></p>
+  ${st.tst !== null && st.tst !== undefined ? `<p class="note">계산: 잠잔 시간 ${fmtH(st.tst)}, 침대에 있던 시간 ${fmtH(st.tib)}, 수면효율 ${r1(st.se)}%</p>` : ""}
+
+  <div class="band">오늘의 식사 (${meals.length}회)</div>
+  <p class="note">체중과 칼로리는 적지 않습니다. 언제, 어떤 상황과 기분에서 먹었는지, 배고픔과 포만이 어땠는지에 주목합니다.</p>
+  ${meals.map((m, i) => `<div class="meal"><div class="head"><span>${esc(m.time || "")} ${esc(m.type || "")} · ${esc(m.who || "")}</span><button type="button" class="btn ghost small" data-act="delMeal" data-i="${i}">삭제</button></div>
+    <div class="note">먹기 전 배고픔 ${esc(m.hunger)} / 먹은 뒤 포만 ${esc(m.full)}${(m.moodBefore || []).length ? " · 먹기 전 " + esc(m.moodBefore.join(", ")) : ""}${(m.moodAfter || []).length ? " · 먹은 뒤 " + esc(m.moodAfter.join(", ")) : ""}${m.note ? "<br>" + esc(m.note) : ""}</div></div>`).join("")}
+  <div class="meal" id="mealform">
+    <div class="head"><span>식사 추가</span></div>
+    <div class="grid" style="margin-top:8px">
+      ${field("먹은 시각", inp("m_time", "time", ""))}
+      ${field("종류", `<select name="m_type">${MEAL_TYPES.map(t => `<option>${t}</option>`).join("")}</select>`)}
+      ${field("누구와", `<select name="m_who"><option>혼자</option><option>다른 사람과</option></select>`)}
+      ${field("먹기 전 배고픔 (0~10)", inp("m_hunger", "number", "", 'min="0" max="10" inputmode="numeric"'), "0 전혀 ~ 10 매우")}
+      ${field("먹은 뒤 포만 (0~10)", inp("m_full", "number", "", 'min="0" max="10" inputmode="numeric"'), "0 전혀 ~ 10 불편할 만큼")}
+    </div>
+    <div style="margin-top:10px" class="f"><b class="note">먹기 전 기분</b><div class="chips">${MOODS.map(t => `<label><input type="checkbox" data-multi="1" name="m_before" value="${t}"><span>${t}</span></label>`).join("")}</div></div>
+    <div style="margin-top:8px" class="f"><b class="note">먹은 뒤 기분</b><div class="chips">${MOODS.concat(["죄책감", "만족"]).map(t => `<label><input type="checkbox" data-multi="1" name="m_after" value="${t}"><span>${t}</span></label>`).join("")}</div></div>
+    <div style="margin-top:8px">${field("상황 메모", inp("m_note", "text", "", 'maxlength="200"'), "어디서, 무엇을 하다가 (선택)")}</div>
+    <div class="row" style="margin-top:10px"><button type="button" class="btn ghost" data-act="addMeal">이 식사 추가</button><span id="m-meal" class="err"></span></div>
+  </div>
+
+  <div class="band">오늘 하루</div>
+  <div class="grid">
+    ${field("스트레스 (0~10)", inp("stress", "number", d.stress, 'min="0" max="10" inputmode="numeric"'))}
+    <div><div class="f" style="font-size:14px;font-weight:700;color:var(--ink2)">전반적인 기분</div>${scaleRow("mood", ["매우 나쁨", "", "보통", "", "매우 좋음"], d.mood)}<div class="ends"><span>매우 나쁨</span><span>매우 좋음</span></div></div>
+  </div>
+  <div style="margin-top:10px">${field("오늘의 메모", `<textarea name="note" maxlength="1000">${esc(d.note || "")}</textarea>`, "섭식이나 수면에 영향을 준 일, 알아차린 점 (선택)")}</div>
+  <div class="row" style="margin-top:12px"><button class="btn">기록 저장</button><span id="m-log"></span></div>
+  </form>`;
+}
+function collectLog(f) {
+  const o = formData(f), cur = S.logs[S.date] || {};
+  const numOr = v => v === "" || v === undefined ? "" : Number(v);
+  return {
+    sleep: { bed: o.bed, sol: numOr(o.sol), wakes: numOr(o.wakes), waso: numOr(o.waso), wake: o.wake, out: o.out, nap: numOr(o.nap), caffeine: numOr(o.caffeine), screen: numOr(o.screen), quality: o.quality || "", rested: o.rested || "", sleepy: o.sleepy || "", nightmare: !!o.nightmare },
+    meals: (cur.meals || []).slice(),
+    day: { stress: numOr(o.stress), mood: o.mood || "", note: o.note || "" }
+  };
+}
+function flatLog(l) {
+  const s = l.sleep || {}, st = sleepStats(s), d = l.day || {};
+  return { "취침": s.bed, "잠들기까지(분)": s.sol, "깬 횟수": s.wakes, "깨어 있던 시간(분)": s.waso, "마지막으로 깬 시각": s.wake, "침대에서 나온 시각": s.out,
+    "수면 시간(시간)": st.tst === null || st.tst === undefined ? "" : Math.round(st.tst / 6) / 10, "수면효율(%)": st.se === null || st.se === undefined ? "" : Math.round(st.se),
+    "수면의 질(1-5)": s.quality, "개운함(1-5)": s.rested, "낮 졸림(1-5)": s.sleepy, "낮잠(분)": s.nap, "카페인(잔)": s.caffeine, "자기 전 화면(분)": s.screen, "악몽": s.nightmare ? "예" : "",
+    "식사 횟수": (l.meals || []).length, "식사 시각": (l.meals || []).map(m => m.time).join(", "), "스트레스(0-10)": d.stress, "기분(1-5)": d.mood };
+}
+async function saveLog(l, mid) {
+  try { await api("saveLog", { date: S.date, data: l, flat: flatLog(l) }); S.logs[S.date] = l; return true; }
+  catch (e) { msg(mid, e.message); return false; }
+}
+
+/* ---- 검사 ---- */
+function testCards() {
+  return `<div class="tests">` + Object.entries(TESTS).map(([k, t]) => `<div class="testcard"><h3>${t.title}</h3><div class="note">${t.n} · ${t.about}</div>
+    ${S.tests[k] ? `<div class="note"><b>결과</b> ${esc(testSummary(k, S.tests[k]))}</div>` : ""}
+    <div class="row"><button class="btn small ${S.tests[k] ? "ghost" : ""}" data-act="openTest" data-test="${k}">${S.tests[k] ? "결과 보기 · 다시 하기" : "검사하기"}</button></div></div>`).join("") + `</div>`;
+}
+function viewTests() {
+  if (!S.test) return `<div class="band">검사</div><p class="note">솔직하게, 너무 오래 고민하지 말고 답합니다. 결과는 진단이 아니며, 자신을 이해하기 위한 참고 자료입니다.</p>${testCards()}`;
+  const k = S.test, t = TESTS[k], saved = S.tests[k], a = (saved && saved.answers) || {};
+  let body = "";
+  if (k === "obcs") body = `<p class="note">각 문항이 자신과 얼마나 일치하는지 고릅니다. 1 전혀 아니다 · 2 아니다 · 3 거의 아니다 · 4 보통이다 · 5 조금 그렇다 · 6 그렇다 · 7 매우 그렇다</p>` +
+    OBCS_ITEMS.map((q, i) => `<div class="item"><div class="q">${i + 1}. ${esc(q)}</div>${scaleRow("q" + (i + 1), L7, a[i + 1])}<div class="ends"><span>전혀 아니다</span><span>매우 그렇다</span></div></div>`).join("");
+  if (k === "eat") body = `<p class="note">각 문항이 자신과 얼마나 일치하는지 고릅니다. 1 전혀 아니다 ~ 6 매우 그렇다</p>` +
+    EAT_ITEMS.map((q, i) => `<div class="item"><div class="q">${i + 1}. ${esc(q)}</div>${scaleRow("q" + (i + 1), ["전혀 아니다", "", "", "", "", "매우 그렇다"], a[i + 1])}<div class="ends" style="max-width:285px"><span>전혀 아니다</span><span>매우 그렇다</span></div></div>`).join("");
+  if (k === "isi") body = `<p class="note">지난 2주 동안 귀하의 불면증 문제의 심한 정도에 대해 선택해 주시기 바랍니다.</p>` +
+    ISI_ITEMS.map((it, i) => `<div class="item"><div class="q">${i + 1}. ${esc(it.q)}</div>${optRow("q" + (i + 1), it.o, a[i + 1])}</div>`).join("");
+  if (k === "psqi") body = `<p class="note">다음은 지난 1달(4주) 동안 당신의 일상적인 수면습관에 관한 질문입니다. 지난 1달 동안 대부분의 일상에서 가장 적합한 답을 고르거나 적어 주세요.</p>
+    <div class="item"><div class="q">1. 지난 한달 동안, 당신은 평소 몇 시에 잠자리에 들었습니까?</div>${inp("q1", "time", a.q1, 'required style="max-width:160px"')}</div>
+    <div class="item"><div class="q">2. 지난 한달 동안, 당신은 밤에 잠자리에 들어서 잠이 들기까지 보통 얼마나 오래 걸렸습니까? (분)</div>${inp("q2", "number", a.q2, 'required min="0" max="600" inputmode="numeric" style="max-width:160px"')}</div>
+    <div class="item"><div class="q">3. 지난 한달 동안, 당신은 평소 아침 몇 시에 일어났습니까?</div>${inp("q3", "time", a.q3, 'required style="max-width:160px"')}</div>
+    <div class="item"><div class="q">4. 지난 한달 동안, 당신이 밤에 실제로 잠잔 시간은 얼마나 됩니까? (잠자리에서 보낸 시간과 다를 수 있습니다.)</div><div class="row">${inp("q4h", "number", a.q4h, 'required min="0" max="24" inputmode="numeric" style="max-width:90px"')} 시간 ${inp("q4m", "number", a.q4m === undefined ? 0 : a.q4m, 'min="0" max="59" inputmode="numeric" style="max-width:90px"')} 분</div></div>
+    <div class="item"><div class="q">5. 지난 한달 동안, 당신은 아래의 이유로 잠자는 데 얼마나 자주 문제가 있었습니까?</div>
+      ${PSQI_5.map(([c, q]) => `<div style="margin:10px 0 4px">${c}. ${esc(q)}</div>${optRow("q5" + c, FREQ, a["q5" + c])}`).join("")}
+      <div style="margin-top:8px">${field("j의 이유 (선택)", inp("q5jtext", "text", a.q5jtext, 'maxlength="100"'))}</div></div>
+    <div class="item"><div class="q">6. 지난 한달 동안, 당신은 전반적으로 수면의 질이 어느 정도라고 평가하십니까?</div>${optRow("q6", ["매우 좋음", "상당히 좋음", "상당히 나쁨", "매우 나쁨"], a.q6)}</div>
+    <div class="item"><div class="q">7. 지난 한달 동안, 당신은 잠이 들기 위해 얼마나 자주 약을 복용했습니까? (처방약 또는 약국에서 구입한 약)</div>${optRow("q7", FREQ, a.q7)}</div>
+    <div class="item"><div class="q">8. 지난 한달 동안, 당신은 운전하거나, 식사 때 혹은 사회활동을 하는 동안 얼마나 자주 졸음을 느꼈습니까?</div>${optRow("q8", FREQ, a.q8)}</div>
+    <div class="item"><div class="q">9. 지난 한달 동안, 당신은 일에 열중하는데 얼마나 많은 문제가 있었습니까?</div>${optRow("q9", ["전혀 없었다", "매우 조금 있었다", "다소 있었다", "매우 많이 있었다"], a.q9)}</div>`;
+  return `<div class="row" style="justify-content:space-between"><button class="btn ghost small" data-act="closeTest">검사 목록</button></div>
+    <div class="band">${t.title}</div>
+    ${saved ? resultHTML(k, saved) + `<div class="band">다시 하기</div>` : ""}
+    <form data-form="saveTest">${body}<div class="row" style="margin-top:14px"><button class="btn">결과 보기</button><span id="m-test" class="err"></span></div></form>`;
+}
+function bar(label, val, min, max) {
+  const pct = Math.max(0, Math.min(100, (val - min) / (max - min) * 100));
+  return `<div style="margin:8px 0"><div class="row" style="justify-content:space-between"><span>${esc(label)}</span><b>${r1(val)}</b></div><div class="meter" role="img" aria-label="${esc(label)} ${r1(val)}"><i style="width:${pct}%"></i></div><div class="ends" style="max-width:none"><span>${min}</span><span>${max}</span></div></div>`;
+}
+function resultHTML(k, t) {
+  const s = t.score; let h = `<div class="band">나의 결과 <span class="note" style="font-weight:400">(${esc(t.at || "")})</span></div>`;
+  if (k === "obcs") h += s.groups.map(g => bar(g.name + " (평균)", g.mean, 1, 7)).join("") +
+    `<p class="note">점수가 높을수록 자신의 몸을 다른 사람의 눈으로 자주 살피고(신체 감시), 기대하는 모습에 미치지 못할 때 부끄러움을 크게 느낀다(신체 수치심)는 뜻입니다. 정해진 기준점은 없으며, 두 점수의 높낮이와 수업에서 배운 사회문화적 요인을 연결해 생각해 봅니다. 역채점 문항: 1, 2, 3, 4, 7, 8, 13, 15번.</p>`;
+  if (k === "eat") h += `<div class="tiles"><div class="tile"><div class="k">총점</div><div class="v">${s.total}<span class="u"> / 26~156</span></div></div><div class="tile"><div class="k">문항 평균</div><div class="v">${r1(s.mean)}<span class="u"> / 1~6</span></div></div></div>` +
+    s.groups.map(g => bar(g.name + " (평균)", g.mean, 1, 6)).join("") +
+    `<p class="note">점수가 높을수록 먹는 것과 체중에 대한 염려와 통제가 크다는 뜻입니다. 이 양식에는 정해진 기준점이 없고, 이 결과는 진단이 아닙니다. 어느 요인이 상대적으로 높은지, 어떤 문항에 높게 답했는지를 살펴봅니다. 13번은 역채점했습니다.</p>
+     <p class="notice">먹는 문제로 걱정되는 점이 있다면 혼자 고민하지 말고 학생상담센터나 담당 교수에게 이야기해 주세요.</p>`;
+  if (k === "isi") h += `<div class="tiles"><div class="tile"><div class="k">총점</div><div class="v">${s.total}<span class="u"> / 28</span></div></div></div><p style="margin-top:10px"><b>${esc(s.label)}</b></p>
+    <table style="max-width:420px"><tr><th>점수</th><th>해석</th></tr><tr><td>0-7점</td><td>유의할만한 불면증이 없습니다.</td></tr><tr><td>8-14점</td><td>약간의 불면경향이 있습니다.</td></tr><tr><td>15-21점</td><td>중등도의 불면증이 있습니다.</td></tr><tr><td>22점 이상</td><td>심한 불면증이 있습니다.</td></tr></table>
+    <p class="note" style="margin-top:8px">한국판 타당화 연구(Cho, Song, & Morin, 2014)는 수면 클리닉 환자를 대상으로 불면 환자를 가려내는 기준을 15.5점으로 보고했습니다. 이 결과는 선별용이며 진단이 아닙니다.</p>`;
+  if (k === "psqi") {
+    const names = ["주관적 수면의 질", "수면 잠복기", "수면 시간", "평소의 수면 효율", "수면 방해", "수면제 약물의 사용", "주간 기능 장애"];
+    h += `<div class="tiles"><div class="tile"><div class="k">총점</div><div class="v">${s.total === null ? "-" : s.total}<span class="u"> / 21</span></div></div><div class="tile"><div class="k">수면 효율</div><div class="v">${r1(s.eff)}<span class="u"> %</span></div></div></div>
+    <div class="scroll" style="margin-top:10px"><table><tr><th>요소</th><th>점수 (0~3)</th></tr>${names.map((n, i) => `<tr><td>${i + 1}. ${n}</td><td class="n">${s.comps[i] === null ? "-" : s.comps[i]}</td></tr>`).join("")}</table></div>
+    <p class="note" style="margin-top:8px">각 요소는 0~3점이고 총점이 높을수록 수면의 질이 나쁩니다. 원척도(Buysse 등, 1989)는 총점이 5점을 넘으면 수면의 질이 좋지 않은 것으로 봅니다. 어느 요소의 점수가 높은지 살펴보세요. 이 결과는 선별용이며 진단이 아닙니다.</p>`;
+  }
+  return h;
+}
+function collectTest(k, f) {
+  const o = formData(f), a = {};
+  const need = (name) => { if (o[name] === undefined || o[name] === "") throw new Error("답하지 않은 문항이 있습니다."); return o[name]; };
+  if (k === "obcs" || k === "eat" || k === "isi") { const n = { obcs: 16, eat: 26, isi: 7 }[k]; for (let i = 1; i <= n; i++) a[i] = Number(need("q" + i)); }
+  if (k === "psqi") {
+    ["q1", "q2", "q3", "q4h", "q6", "q7", "q8", "q9"].forEach(x => a[x] = need(x));
+    "abcdefghij".split("").forEach(c => a["q5" + c] = need("q5" + c));
+    a.q4m = o.q4m || 0; a.q5jtext = o.q5jtext || "";
+  }
+  const score = { obcs: scoreOBCS, eat: scoreEAT, isi: scoreISI, psqi: scorePSQI }[k](a);
+  const now = new Date();
+  return { answers: a, score, at: ymd(now) };
+}
+
+/* ---- 나의 일주일 ---- */
+function sleepChart(w) {
+  const W = 700, H = 230, L = 40, R = 10, T = 22, B = 44, pw = W - L - R, ph = H - T - B;
+  const vals = w.sl.map(s => (s.tst === null || s.tst === undefined) ? null : s.tst / 60);
+  const max = Math.max(10, Math.ceil(Math.max(...vals.map(v => v || 0)) + 1));
+  const y = v => T + ph - v / max * ph, bw = pw / 7;
+  let g = "";
+  for (let t = 0; t <= max; t += 2) g += `<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="#E3E7EA"/><text x="${L - 6}" y="${y(t) + 4}" text-anchor="end" font-size="12" fill="#6B7680">${t}</text>`;
+  w.days.forEach((d, i) => {
+    const x = L + i * bw + bw * 0.2, v = vals[i];
+    if (v !== null) {
+      const top = y(v), h = T + ph - top;
+      g += `<path d="M${x},${T + ph} V${top + 4} q0,-4 4,-4 H${x + bw * 0.6 - 4} q4,0 4,4 V${T + ph} Z" fill="#3E8E86" data-tip="${md(d.date)} (${dow(d.date)}) 잠잔 시간 ${fmtH(w.sl[i].tst)}, 수면효율 ${r1(w.sl[i].se)}%"></path><text x="${x + bw * 0.3}" y="${top - 6}" text-anchor="middle" font-size="13" font-weight="700" fill="#1B1F23">${r1(v)}</text>`;
+      if (h < 1) g += "";
+    } else g += `<text x="${x + bw * 0.3}" y="${T + ph - 8}" text-anchor="middle" font-size="12" fill="#6B7680">기록 없음</text>`;
+    g += `<text x="${x + bw * 0.3}" y="${H - 24}" text-anchor="middle" font-size="12" fill="#4A5560">${md(d.date)}</text><text x="${x + bw * 0.3}" y="${H - 8}" text-anchor="middle" font-size="12" fill="#6B7680">${dow(d.date)}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="날짜별 잠잔 시간 막대그래프" style="width:100%;height:auto">${g}<line x1="${L}" x2="${W - R}" y1="${T + ph}" y2="${T + ph}" stroke="#7D8C99"/></svg>`;
+}
+function mealChart(w) {
+  const W = 700, rowH = 26, L = 70, R = 14, T = 24, H = T + rowH * 7 + 10, pw = W - L - R;
+  const X = min => L + (((min - 240) + 1440) % 1440) / 1440 * pw;   // 축: 04시 ~ 다음 날 04시
+  let g = "";
+  for (let h = 4; h <= 28; h += 4) { const x = L + (h - 4) / 24 * pw; g += `<line x1="${x}" x2="${x}" y1="${T}" y2="${H - 10}" stroke="#E3E7EA"/><text x="${x}" y="14" text-anchor="middle" font-size="12" fill="#6B7680">${h % 24}시</text>`; }
+  w.days.forEach((d, i) => {
+    const yy = T + i * rowH + rowH / 2;
+    g += `<text x="${L - 8}" y="${yy + 4}" text-anchor="end" font-size="12" fill="#4A5560">${md(d.date)} ${dow(d.date)}</text><line x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}" stroke="#EEF1F3"/>`;
+    ((d.log && d.log.meals) || []).forEach(m => { const t = toMin(m.time); if (t === null) return;
+      g += `<circle cx="${X(t)}" cy="${yy}" r="6" fill="#3E8E86" stroke="#fff" stroke-width="2" data-tip="${md(d.date)} ${esc(m.time)} ${esc(m.type || "")} · ${esc(m.who || "")} · 배고픔 ${esc(m.hunger)} → 포만 ${esc(m.full)}"></circle>`; });
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="날짜별 식사 시각" style="width:100%;height:auto">${g}</svg>`;
+}
+function weekTable(w) {
+  return `<div class="scroll"><table><tr><th>날짜</th><th>취침</th><th>기상</th><th>잠들기까지</th><th>잠잔 시간</th><th>수면효율</th><th>수면의 질</th><th>낮 졸림</th><th>식사</th><th>식사 시각</th><th>스트레스</th></tr>` +
+    w.days.map((d, i) => { const s = (d.log && d.log.sleep) || {}, st = w.sl[i], ms = (d.log && d.log.meals) || [], dd = (d.log && d.log.day) || {};
+      return `<tr><td>${md(d.date)} (${dow(d.date)})</td><td>${esc(s.bed || "-")}</td><td>${esc(s.wake || "-")}</td><td class="n">${s.sol === "" || s.sol === undefined ? "-" : esc(s.sol) + "분"}</td><td class="n">${st.tst === null || st.tst === undefined ? "-" : r1(st.tst / 60) + "시간"}</td><td class="n">${st.se === null || st.se === undefined ? "-" : Math.round(st.se) + "%"}</td><td class="n">${esc(s.quality || "-")}</td><td class="n">${esc(s.sleepy || "-")}</td><td class="n">${ms.length}회</td><td>${esc(ms.map(m => m.time).filter(Boolean).join(", ") || "-")}</td><td class="n">${dd.stress === "" || dd.stress === undefined ? "-" : esc(dd.stress)}</td></tr>`; }).join("") + `</table></div>`;
+}
+function tiles(w) {
+  const t = (k, v, u) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}<span class="u"> ${u || ""}</span></div></div>`;
+  return `<div class="tiles">${t("기록한 날", w.logged, "/ 7일")}${t("평균 잠잔 시간", w.tst === null ? "-" : r1(w.tst / 60), "시간")}${t("평균 수면효율", w.se === null ? "-" : Math.round(w.se), "%")}${t("잠들기까지", w.sol === null ? "-" : Math.round(w.sol), "분")}${t("하루 식사 횟수", r1(w.mealsPerDay), "회")}${t("혼자 먹은 비율", w.alone === null ? "-" : Math.round(w.alone), "%")}${t("밤 10시 이후 식사", w.late, "회")}${t("먹기 전 배고픔", r1(w.hunger), "/ 10")}</div>`;
+}
+function viewWeek() {
+  const w = weekSummary(S.logs, S.profile.start);
+  return `<div class="band">나의 일주일 (${md(w.days[0].date)} ~ ${md(w.days[6].date)})</div>
+  ${tiles(w)}
+  <div class="band">날짜별 잠잔 시간 (시간)</div>${sleepChart(w)}
+  <div class="band">식사 시각</div><p class="note">점 하나가 식사 한 번입니다. 가로축은 새벽 4시부터 다음 날 새벽 4시까지입니다.</p>${mealChart(w)}
+  <div class="band">먹기 전 기분</div>
+  ${w.moods.length ? `<p>${w.moods.map(([m, n]) => `${esc(m)} ${n}회`).join(" · ")}</p>` : `<p class="note">아직 기록이 없습니다.</p>`}
+  <div class="band">기록 표</div>${weekTable(w)}
+  <div class="band">살펴볼 질문</div>
+  <p class="note">취침과 기상 시각이 날마다 얼마나 다른가요? 잠을 못 잔 날의 전날에는 무엇이 달랐나요? 배고프지 않은데 먹은 때는 어떤 기분이었나요? 식사 간격이 길었던 날 다음 식사는 어땠나요? 수면과 섭식이 서로 영향을 준 날이 있었나요?</p>`;
+}
+
+/* ---- 한 장 정리 ---- */
+const REF_FIELDS = [
+  ["eat", "나의 섭식 패턴", "일주일 기록과 검사 결과에서 알아차린 섭식 패턴을 씁니다. (식사 시각과 규칙성, 배고픔과 포만의 신호, 혼자 먹을 때와 함께 먹을 때 등)"],
+  ["sleep", "나의 수면 패턴", "일주일 기록과 검사 결과에서 알아차린 수면 패턴을 씁니다. (취침과 기상의 규칙성, 잠들기까지 걸리는 시간, 수면효율, 낮의 졸림 등)"],
+  ["factors", "영향을 주는 상황과 감정", "어떤 상황과 감정이 섭식과 수면에 영향을 주었나요? 수업에서 배운 개념(내적 신호의 인식, 식이 제한과 폭식의 순환, 소인·유발·지속 요인, 조건화된 각성 등)으로 설명해 봅니다."],
+  ["methods", "건강한 습관을 기르기 위한 방법 탐색", "나에게 맞을 것 같은 방법을 찾아 씁니다. 수업 내용(수면위생, 자극조절 등)이나 스스로 찾아본 자료를 근거로 듭니다."],
+  ["keep", "유지하고 싶은 점", "지금 잘하고 있어서 계속하고 싶은 한 가지"],
+  ["change", "바꾸고 싶은 점과 계획", "한두 가지를 정해 언제, 어디서, 무엇을 할지 구체적인 행동으로 씁니다."]
+];
+function viewSheet() {
+  const w = weekSummary(S.logs, S.profile.start), r = S.reflection || {};
+  const showScores = r.showScores !== false;
+  const scoreRows = Object.keys(TESTS).map(k => `<tr><td>${TESTS[k].title}</td><td>${S.tests[k] ? esc(testSummary(k, S.tests[k])) + (k === "isi" ? " · " + esc(S.tests[k].score.label) : "") : "하지 않음"}</td></tr>`).join("");
+  return `
+  <form data-form="saveReflection" class="noprint">
+    <div class="band">패턴 알아차리기와 앞으로의 계획</div>
+    <p class="note">먼저 '나의 일주일'에서 기록을 살펴본 뒤 씁니다. 쓴 내용은 저장되며, 아래 '한 장 정리'에 바로 반영됩니다.</p>
+    ${REF_FIELDS.map(([k, t, h]) => `<div style="margin-bottom:12px">${field(t, `<textarea name="${k}" maxlength="1500">${esc(r[k] || "")}</textarea>`, h)}</div>`).join("")}
+    <p><label class="note"><input type="checkbox" name="showScores" ${showScores ? "checked" : ""}> 출력하는 한 장 정리에 검사 점수를 포함합니다</label></p>
+    <div class="row"><button class="btn">저장</button><button type="button" class="btn ghost" data-act="print">인쇄 / PDF로 저장</button><span id="m-ref"></span></div>
+    <p class="note" style="margin-top:8px">'인쇄 / PDF로 저장'을 누른 뒤 프린터 대신 'PDF로 저장'을 고르면 제출용 파일이 만들어집니다.</p>
+  </form>
+  <div class="band noprint">한 장 정리 미리보기</div>
+  <div class="sheet">
+    <h2>나의 섭식과 수면 돌아보기</h2>
+    <div class="note">이상심리학 12주차 개인과제 · ${esc(S.profile.name)} (${esc(S.profile.id)}) · 기록 기간 ${w.days[0].date} ~ ${w.days[6].date} · 기록한 날 ${w.logged}/7일</div>
+    <h3>일주일 기록</h3>
+    ${weekTable(w)}
+    <p class="note" style="margin-top:6px">평균 잠잔 시간 ${w.tst === null ? "-" : r1(w.tst / 60) + "시간"} · 평균 수면효율 ${w.se === null ? "-" : Math.round(w.se) + "%"} · 잠들기까지 ${w.sol === null ? "-" : Math.round(w.sol) + "분"} · 하루 식사 ${r1(w.mealsPerDay)}회 · 혼자 먹은 비율 ${w.alone === null ? "-" : Math.round(w.alone) + "%"} · 밤 10시 이후 식사 ${w.late}회${w.moods.length ? " · 먹기 전 기분: " + w.moods.slice(0, 3).map(([m, n]) => esc(m) + " " + n + "회").join(", ") : ""}</p>
+    ${showScores ? `<h3>검사 결과</h3><table>${scoreRows}</table>` : ""}
+    ${REF_FIELDS.map(([k, t]) => `<h3>${t}</h3><div class="txt">${esc(r[k] || "")}</div>`).join("")}
+  </div>`;
+}
+
+/* ---- 교수용 ---- */
+function viewAdmin() {
+  if (!S.admin) return `<div class="band">교수용 화면</div>
+    <form data-form="adminLogin"><div class="grid" style="max-width:340px;grid-template-columns:1fr">${LOCAL ? `<p class="note">연습 모드에서는 이 기기에 저장된 계정만 보입니다.</p>` : field("교수용 비밀번호", inp("adminKey", "password", "", "required"))}
+    <div class="row"><button class="btn">전체 기록 보기</button><span id="m-admin" class="err"></span></div></div></form>`;
+  const rows = S.admin.map((st, i) => {
+    const w = weekSummary(st.logs || {}, st.start || today()), t = st.tests || {}, r = st.reflection || {};
+    const done = REF_FIELDS.filter(([k]) => (r[k] || "").trim()).length;
+    return `<tr><td>${esc(st.name)}<br><span class="note">${esc(st.id)}</span></td><td class="n">${w.logged}/7</td><td class="n">${w.tst === null ? "-" : r1(w.tst / 60)}</td><td class="n">${w.se === null ? "-" : Math.round(w.se) + "%"}</td><td class="n">${r1(w.mealsPerDay)}</td>
+      <td class="n">${t.obcs ? t.obcs.score.groups.map(g => r1(g.mean)).join(" / ") : "-"}</td><td class="n">${t.eat ? t.eat.score.total : "-"}</td><td class="n">${t.isi ? t.isi.score.total : "-"}</td><td class="n">${t.psqi && t.psqi.score.total !== null ? t.psqi.score.total : "-"}</td>
+      <td class="n">${done}/${REF_FIELDS.length}</td><td><button class="btn ghost small" data-act="adminOpen" data-i="${i}">보기</button></td></tr>`;
+  }).join("");
+  let detail = "";
+  if (S.adminOpen !== undefined && S.admin[S.adminOpen]) {
+    const st = S.admin[S.adminOpen], w = weekSummary(st.logs || {}, st.start || today()), r = st.reflection || {};
+    detail = `<div class="band">${esc(st.name)} (${esc(st.id)})</div>${weekTable(w)}
+      <h3 style="font-size:15px;margin:12px 0 6px">검사</h3><table>${Object.keys(TESTS).map(k => `<tr><td>${TESTS[k].title}</td><td>${(st.tests || {})[k] ? esc(testSummary(k, st.tests[k])) : "하지 않음"}</td></tr>`).join("")}</table>
+      <div class="sheet">${REF_FIELDS.map(([k, t]) => `<h3>${t}</h3><div class="txt">${esc(r[k] || "")}</div>`).join("")}</div>
+      ${w.days.filter(d => d.log && d.log.day && d.log.day.note).map(d => `<p class="note"><b>${md(d.date)} 메모</b> ${esc(d.log.day.note)}</p>`).join("")}`;
+  }
+  return `<div class="band">전체 기록 (${S.admin.length}명)</div>
+    <p class="note">섭식 관련 점수를 포함한 민감한 정보입니다. 화면을 다른 사람과 공유하지 않도록 주의해 주세요.</p>
+    <div class="scroll"><table><tr><th>학생</th><th>기록</th><th>평균 수면(시간)</th><th>수면효율</th><th>식사/일</th><th>신체 감시 / 수치심</th><th>섭식 태도</th><th>ISI</th><th>PSQI</th><th>정리</th><th></th></tr>${rows || `<tr><td colspan="11">아직 가입한 학생이 없습니다.</td></tr>`}</table></div>${detail}`;
+}
+
+/* ---- 동작 ---- */
+async function act(name, el) {
+  if (S.busy) return;
+  try {
+    if (name === "login" || name === "signup") {
+      const o = formData(el), mid = "m-" + name;
+      if (!/^[A-Za-z0-9_\-가-힣]{2,20}$/.test(o.id)) return msg(mid, "아이디는 한글, 영문, 숫자 2~20자로 정해 주세요.");
+      if (name === "signup" && o.pw.length < 4) return msg(mid, "비밀번호는 4자 이상으로 정해 주세요.");
+      S.busy = true; msg(mid, "확인하는 중입니다.", true);
+      const key = await sha256hex("abpsy12|" + o.id + "|" + o.pw);
+      const res = await api(name, { id: o.id, key, name: o.name, code: o.code });
+      adopt(res, key); S.view = "home";
+      const sess = { id: o.id, key }; try { sessionStorage.setItem("abpsy12.session", JSON.stringify(sess)); } catch (e) {}
+      if (name === "signup" || o.keep) store.set("abpsy12.session", sess);
+      S.busy = false; return render();
+    }
+    if (name === "logout") { try { sessionStorage.removeItem("abpsy12.session"); } catch (e) {} store.del("abpsy12.session"); S.profile = null; S.key = null; S.logs = {}; S.tests = {}; S.reflection = {}; return render(); }
+    if (name === "openDay") { S.date = el.dataset.date; S.view = "log"; return render(); }
+    if (name === "shiftDay") { S.date = addDays(S.date, Number(el.dataset.n)); return render(); }
+    if (name === "setStart") { const v = $("#start").value; if (!v) return; S.busy = true; await api("setStart", { start: v }); S.profile.start = v; S.busy = false; return render(); }
+    if (name === "addMeal") {
+      const f = el.closest("form"), o = formData(f);
+      if (!o.m_time) return msg("m-meal", "먹은 시각을 입력해 주세요.");
+      const l = collectLog(f);
+      l.meals.push({ time: o.m_time, type: o.m_type, who: o.m_who, hunger: o.m_hunger === "" ? "" : Number(o.m_hunger), full: o.m_full === "" ? "" : Number(o.m_full), moodBefore: o.m_before || [], moodAfter: o.m_after || [], note: o.m_note || "" });
+      l.meals.sort((a, b) => (a.time || "").localeCompare(b.time || ""));
+      S.busy = true; msg("m-meal", "저장하는 중입니다.", true); const ok = await saveLog(l, "m-meal"); S.busy = false; if (ok) render(); return;
+    }
+    if (name === "delMeal") { const f = el.closest("form"), l = collectLog(f); l.meals.splice(Number(el.dataset.i), 1); S.busy = true; const ok = await saveLog(l, "m-log"); S.busy = false; if (ok) render(); return; }
+    if (name === "saveLog") { const l = collectLog(el); S.busy = true; msg("m-log", "저장하는 중입니다.", true); const ok = await saveLog(l, "m-log"); S.busy = false; if (ok) { render(); msg("m-log", "저장했습니다.", true); } return; }
+    if (name === "openTest") { S.test = el.dataset.test; S.view = "tests"; return render(); }
+    if (name === "closeTest") { S.test = null; return render(); }
+    if (name === "saveTest") {
+      let data; try { data = collectTest(S.test, el); } catch (e) { return msg("m-test", e.message); }
+      S.busy = true; msg("m-test", "저장하는 중입니다.", true);
+      await api("saveTest", { test: S.test, data, summary: testSummary(S.test, data) }); S.tests[S.test] = data; S.busy = false; return render();
+    }
+    if (name === "saveReflection") {
+      const o = formData(el); S.busy = true; msg("m-ref", "저장하는 중입니다.", true);
+      await api("saveReflection", { data: o }); S.reflection = o; S.busy = false; render(); return msg("m-ref", "저장했습니다.", true);
+    }
+    if (name === "print") { try { window.print(); } catch (e) { msg("m-ref", "이 브라우저에서는 인쇄 창을 열 수 없습니다. 브라우저 메뉴의 인쇄를 사용해 주세요."); } return; }
+    if (name === "admin") { S.view = "admin"; return render(); }
+    if (name === "exitAdmin") { S.view = "home"; S.admin = null; S.adminOpen = undefined; return render(); }
+    if (name === "adminLogin") { const o = formData(el); S.busy = true; msg("m-admin", "불러오는 중입니다.", true); const res = await api("admin", { adminKey: o.adminKey }); S.admin = res.students; S.busy = false; return render(); }
+    if (name === "adminOpen") { S.adminOpen = Number(el.dataset.i); return render(); }
+  } catch (e) {
+    S.busy = false;
+    const map = { login: "m-login", signup: "m-signup", saveTest: "m-test", saveReflection: "m-ref", adminLogin: "m-admin", setStart: "m-start" };
+    if (map[name] && document.getElementById(map[name])) msg(map[name], e.message); else console.error(e);
+  }
+}
+
+/* ---- 시작 ---- */
+(async function init() {
+  let sess = null;
+  try { sess = JSON.parse(sessionStorage.getItem("abpsy12.session")); } catch (e) {}
+  sess = sess || store.get("abpsy12.session");
+  if (sess && sess.id && sess.key) {
+    try { S.profile = { id: sess.id }; S.key = sess.key; const res = await api("login", {}); adopt(res, sess.key); }
+    catch (e) { S.profile = null; S.key = null; }
+  }
+  render();
+})();
+})();
+</script>
+</body>
+</html>
